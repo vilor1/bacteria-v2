@@ -17,26 +17,28 @@
   </div>
 
   <!-- Auth Overlay -->
-  <div id="auth-layer" class="overlay active">
+  <div id="auth-layer" class="overlay">
     <div class="auth-card glass">
       <div class="auth-header">
         <h1 class="brand-logo">BACTERIA<span class="pulse-dot">●</span><span class="version">v2.0</span></h1>
         <p class="tagline">Pro-grade car editing • 50+ effects • .bacteria projects</p>
       </div>
       
+      <!-- FIXED: Tab buttons with type="button" to prevent form submission -->
       <div class="auth-tabs">
-        <button class="tab active" data-tab="login">⟡ LOGIN</button>
-        <button class="tab" data-tab="signup">⟡ CREATE</button>
+        <button type="button" class="tab active" data-tab="login">⟡ LOGIN</button>
+        <button type="button" class="tab" data-tab="signup">⟡ CREATE</button>
       </div>
       
-      <form id="login-form" class="auth-form">
+      <!-- Login Form -->
+      <form id="login-form" class="auth-form" autocomplete="on">
         <div class="input-group">
-          <input type="text" id="login-user" placeholder=" " required/>
+          <input type="text" id="login-user" placeholder=" " required autocomplete="username"/>
           <label>Username</label>
           <div class="input-glow"></div>
         </div>
         <div class="input-group">
-          <input type="password" id="login-pass" placeholder=" " required/>
+          <input type="password" id="login-pass" placeholder=" " required autocomplete="current-password"/>
           <label>Password</label>
           <div class="input-glow"></div>
         </div>
@@ -46,17 +48,18 @@
         </button>
       </form>
       
-      <form id="signup-form" class="auth-form hidden">
+      <!-- Signup Form (hidden by default) -->
+      <form id="signup-form" class="auth-form hidden" autocomplete="on">
         <div class="input-group">
-          <input type="text" id="signup-user" placeholder=" " required/>
+          <input type="text" id="signup-user" placeholder=" " required autocomplete="username"/>
           <label>Choose Username</label>
         </div>
         <div class="input-group">
-          <input type="email" id="signup-email" placeholder=" " required/>
+          <input type="email" id="signup-email" placeholder=" " required autocomplete="email"/>
           <label>Email</label>
         </div>
         <div class="input-group">
-          <input type="password" id="signup-pass" placeholder=" " required/>
+          <input type="password" id="signup-pass" placeholder=" " required autocomplete="new-password"/>
           <label>Create Password</label>
         </div>
         <button type="submit" class="btn-primary glow-blue">
@@ -65,10 +68,11 @@
       </form>
       
       <div class="auth-footer">
-        <span>Created by coinyay</span>
+        <span>Created by frostxxq inspired community</span>
         <div class="social-links">
-          <a href="#" class="social-icon">DC</a>
-          <a href="https://youtube.com/@coinyay" class="social-icon">YT</a>
+          <a href="#" class="social-icon" onclick="return false;">DC</a>
+          <a href="#" class="social-icon" onclick="return false;">YT</a>
+          <a href="#" class="social-icon" onclick="return false;">GH</a>
         </div>
       </div>
     </div>
@@ -82,15 +86,15 @@
       <div class="brand-mini">BACTERIA<span class="status-dot online"></span></div>
       
       <div class="project-info">
-        <input type="text" class="project-name" value="Untitled Project" placeholder="Project name..."/>
-        <span class="auto-save">✓ Auto-saved</span>
+        <input type="text" class="project-name" id="project-name" value="Untitled Project" placeholder="Project name..."/>
+        <span class="auto-save" id="auto-save-status">✓ Ready</span>
       </div>
       
       <div class="user-section">
-        <span class="user-badge" id="user-display">EDITOR</span>
-        <button class="btn-icon" id="theme-toggle" title="Toggle Theme">🌓</button>
-        <button class="btn-icon" id="settings-btn" title="Settings">⚙</button>
-        <button class="btn-logout" id="logout-btn">⟲</button>
+        <span class="user-badge" id="user-display">GUEST</span>
+        <button type="button" class="btn-icon" id="theme-toggle" title="Toggle Theme">🌓</button>
+        <button type="button" class="btn-icon" id="help-btn" title="Help">?</button>
+        <button type="button" class="btn-logout" id="logout-btn" title="Logout">⟲</button>
       </div>
     </header>
 
@@ -102,18 +106,18 @@
         <div class="preview-header">
           <span class="preview-title">PREVIEW</span>
           <div class="preview-controls">
-            <button class="btn-sm" id="preview-1080">1080p</button>
-            <button class="btn-sm active" id="preview-720">720p</button>
-            <button class="btn-sm" id="preview-480">480p</button>
+            <button type="button" class="btn-sm" id="preview-1080">1080p</button>
+            <button type="button" class="btn-sm active" id="preview-720">720p</button>
+            <button type="button" class="btn-sm" id="preview-480">480p</button>
             <span class="fps-badge" id="fps-display">60 FPS</span>
           </div>
         </div>
         
-        <div class="preview-viewport">
+        <div class="preview-viewport" id="preview-viewport">
           <canvas id="main-canvas"></canvas>
           <div class="preview-overlay">
             <div class="timecode" id="timecode">00:00:00:00</div>
-            <div class="resolution-badge" id="res-badge">1920×1080</div>
+            <div class="resolution-badge" id="res-badge">1280×720</div>
           </div>
           <div class="preview-hud">
             <div class="hud-item"><span class="hud-label">ZOOM</span><span class="hud-value" id="zoom-val">100%</span></div>
@@ -123,12 +127,12 @@
         </div>
         
         <div class="preview-footer">
-          <button class="btn-play" id="play-btn">▶ PLAY</button>
-          <button class="btn-stop" id="stop-btn">◼ STOP</button>
+          <button type="button" class="btn-play" id="play-btn">▶ PLAY</button>
+          <button type="button" class="btn-stop" id="stop-btn">◼ STOP</button>
           <div class="seek-wrapper">
-            <input type="range" class="seek-bar" id="seek-bar" min="0" max="100" value="0"/>
             <span class="seek-time start" id="seek-start">00:00</span>
-            <span class="seek-time end" id="seek-end">00:30</span>
+            <input type="range" class="seek-bar" id="seek-bar" min="0" max="100" value="0" step="0.1"/>
+            <span class="seek-time end" id="seek-end">00:00</span>
           </div>
         </div>
       </section>
@@ -144,21 +148,21 @@
         </div>
         
         <div class="effects-categories">
-          <button class="cat-btn active" data-cat="all">ALL</button>
-          <button class="cat-btn" data-cat="shake">SHAKE</button>
-          <button class="cat-btn" data-cat="glitch">GLITCH</button>
-          <button class="cat-btn" data-cat="color">COLOR</button>
-          <button class="cat-btn" data-cat="overlay">OVERLAY</button>
-          <button class="cat-btn" data-cat="distort">DISTORT</button>
+          <button type="button" class="cat-btn active" data-cat="all">ALL</button>
+          <button type="button" class="cat-btn" data-cat="shake">SHAKE</button>
+          <button type="button" class="cat-btn" data-cat="glitch">GLITCH</button>
+          <button type="button" class="cat-btn" data-cat="color">COLOR</button>
+          <button type="button" class="cat-btn" data-cat="overlay">OVERLAY</button>
+          <button type="button" class="cat-btn" data-cat="distort">DISTORT</button>
         </div>
         
         <div class="effects-grid" id="effects-grid">
-          <!-- Dynamically populated by effects-lib.js -->
+          <!-- Dynamically populated -->
         </div>
         
         <div class="effects-footer">
           <span class="effects-count"><strong>50</strong> effects loaded</span>
-          <button class="btn-sm" id="refresh-effects">↻ Refresh</button>
+          <button type="button" class="btn-sm" id="refresh-effects">↻</button>
         </div>
       </aside>
 
@@ -166,7 +170,7 @@
       <aside class="properties-panel glass hidden" id="properties-panel">
         <div class="panel-header">
           <h3>⟡ EFFECT PROPERTIES</h3>
-          <button class="btn-close" id="close-properties">✕</button>
+          <button type="button" class="btn-close" id="close-properties">✕</button>
         </div>
         
         <div class="effect-info">
@@ -178,15 +182,9 @@
           <!-- Dynamic parameters rendered here -->
         </div>
         
-        <div class="keyframe-section">
-          <h5>⏱ Keyframes</h5>
-          <div class="keyframe-timeline" id="keyframe-timeline"></div>
-          <button class="btn-sm" id="add-keyframe">+ Add Keyframe</button>
-        </div>
-        
         <div class="prop-actions">
-          <button class="btn-secondary" id="reset-params">↺ Reset</button>
-          <button class="btn-primary glow-green" id="apply-params">✓ Apply</button>
+          <button type="button" class="btn-secondary" id="reset-params">↺ Reset</button>
+          <button type="button" class="btn-primary glow-green" id="apply-params">✓ Apply</button>
         </div>
       </aside>
 
@@ -196,24 +194,24 @@
     <section class="timeline-section glass">
       <div class="timeline-header">
         <div class="timeline-tools">
-          <button class="tool-btn active" title="Select">↖</button>
-          <button class="tool-btn" title="Cut">✂</button>
-          <button class="tool-btn" title="Split">⫿</button>
-          <button class="tool-btn" title="Undo">↶</button>
-          <button class="tool-btn" title="Redo">↷</button>
+          <button type="button" class="tool-btn active" title="Select">↖</button>
+          <button type="button" class="tool-btn" title="Cut">✂</button>
+          <button type="button" class="tool-btn" title="Split">⫿</button>
+          <button type="button" class="tool-btn" title="Undo">↶</button>
+          <button type="button" class="tool-btn" title="Redo">↷</button>
         </div>
         
         <div class="timeline-zoom">
-          <button class="zoom-btn" id="zoom-out">−</button>
+          <button type="button" class="zoom-btn" id="zoom-out">−</button>
           <input type="range" class="zoom-slider" id="timeline-zoom" min="1" max="10" value="3"/>
-          <button class="zoom-btn" id="zoom-in">+</button>
+          <button type="button" class="zoom-btn" id="zoom-in">+</button>
           <span class="zoom-value" id="zoom-display">3x</span>
         </div>
         
         <div class="timeline-actions">
-          <button class="btn-secondary" id="import-media">📁 Import</button>
-          <button class="btn-primary glow-purple" id="export-project">💾 Export .bacteria</button>
-          <button class="btn-secondary" id="import-project">📂 Load</button>
+          <button type="button" class="btn-secondary" id="import-media">📁 Import Video</button>
+          <button type="button" class="btn-primary glow-purple" id="export-project">💾 Export</button>
+          <button type="button" class="btn-secondary" id="import-project">📂 Load</button>
         </div>
       </div>
       
@@ -225,13 +223,10 @@
           <div class="track video-track" data-type="video">
             <div class="track-header">
               <span class="track-label">🎬 VIDEO</span>
-              <button class="track-toggle active"></button>
+              <button type="button" class="track-toggle active"></button>
             </div>
             <div class="track-content" id="video-track-content">
-              <div class="media-clip" id="main-video-clip" draggable="true">
-                <span class="clip-name">main.mp4</span>
-                <span class="clip-duration">00:30.00</span>
-              </div>
+              <div class="track-placeholder" id="video-placeholder">No video loaded. Click "Import Video"</div>
             </div>
           </div>
           
@@ -239,21 +234,10 @@
           <div class="track effects-track" data-type="effects">
             <div class="track-header">
               <span class="track-label">✨ EFFECTS</span>
-              <button class="track-toggle active"></button>
+              <button type="button" class="track-toggle active"></button>
             </div>
             <div class="track-content" id="effects-track-content">
               <!-- Effect clips added here -->
-            </div>
-          </div>
-          
-          <!-- Audio Track (Future) -->
-          <div class="track audio-track disabled" data-type="audio">
-            <div class="track-header">
-              <span class="track-label">🔊 AUDIO <span class="coming-soon">SOON</span></span>
-              <button class="track-toggle"></button>
-            </div>
-            <div class="track-content">
-              <div class="track-placeholder">Audio editing coming in v2.1</div>
             </div>
           </div>
         </div>
@@ -268,32 +252,31 @@
 
     <!-- Hidden Inputs -->
     <input type="file" id="video-input" accept="video/*" hidden/>
-    <input type="file" id="project-input" accept=".bacteria" hidden/>
+    <input type="file" id="project-input" accept=".bacteria,application/json" hidden/>
     
   </div>
 
   <!-- Toast Notifications -->
   <div class="toast-container" id="toast-container"></div>
 
-  <!-- Keyboard Shortcuts Modal -->
-  <div id="shortcuts-modal" class="modal hidden">
+  <!-- Help Modal -->
+  <div id="help-modal" class="modal hidden">
     <div class="modal-content glass">
       <h3>⌨ Keyboard Shortcuts</h3>
       <div class="shortcuts-grid">
         <div class="shortcut"><kbd>SPACE</kbd><span>Play/Pause</span></div>
         <div class="shortcut"><kbd>S</kbd><span>Split Clip</span></div>
-        <div class="shortcut"><kbd>Z</kbd><span>Undo</span></div>
-        <div class="shortcut"><kbd>Ctrl+Z</kbd><span>Redo</span></div>
+        <div class="shortcut"><kbd>Ctrl+Z</kbd><span>Undo</span></div>
         <div class="shortcut"><kbd>Ctrl+S</kbd><span>Quick Save</span></div>
         <div class="shortcut"><kbd>Ctrl+E</kbd><span>Export</span></div>
-        <div class="shortcut"><kbd>1-5</kbd><span>Preview Quality</span></div>
         <div class="shortcut"><kbd>ESC</kbd><span>Close Panel</span></div>
+        <div class="shortcut"><kbd>?</kbd><span>Help</span></div>
       </div>
-      <button class="btn-close-modal" id="close-shortcuts">Got it</button>
+      <button type="button" class="btn-close-modal" id="close-help">Got it</button>
     </div>
   </div>
 
-  <script src="effects-lib.js"></script>
-  <script src="engine.js"></script>
+  <script src="effects.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
