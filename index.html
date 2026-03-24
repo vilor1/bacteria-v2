@@ -1,81 +1,300 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BACTERIA | Best Editing Software</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BACTERIA v2.0 | Pro Car Editor</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 </head>
-<body>
+<body class="theme-dark">
+  
+  <!-- Animated Background -->
+  <div class="bg-animated">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="grid-overlay"></div>
+  </div>
 
-    <!-- Auth Modal -->
-    <div id="auth-modal" class="modal active">
-        <div class="modal-content">
-            <h1 class="logo">BACTERIA<span class="accent">.exe</span></h1>
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab('login')">LOGIN</button>
-                <button class="tab-btn" onclick="switchTab('signup')">SIGN UP</button>
-            </div>
-            <form id="login-form">
-                <input type="text" placeholder="USERNAME" class="input-field">
-                <input type="password" placeholder="PASSWORD" class="input-field">
-                <button type="submit" class="neon-btn">ENTER SYSTEM</button>
-            </form>
-            <form id="signup-form" style="display:none;">
-                <input type="text" placeholder="NEW USERNAME" class="input-field">
-                <input type="email" placeholder="EMAIL" class="input-field">
-                <input type="password" placeholder="PASSWORD" class="input-field">
-                <button type="submit" class="neon-btn">REGISTER</button>
-            </form>
+  <!-- Auth Overlay -->
+  <div id="auth-layer" class="overlay active">
+    <div class="auth-card glass">
+      <div class="auth-header">
+        <h1 class="brand-logo">BACTERIA<span class="pulse-dot">●</span><span class="version">v2.0</span></h1>
+        <p class="tagline">Pro-grade car editing • 50+ effects • .bacteria projects</p>
+      </div>
+      
+      <div class="auth-tabs">
+        <button class="tab active" data-tab="login">⟡ LOGIN</button>
+        <button class="tab" data-tab="signup">⟡ CREATE</button>
+      </div>
+      
+      <form id="login-form" class="auth-form">
+        <div class="input-group">
+          <input type="text" id="login-user" placeholder=" " required/>
+          <label>Username</label>
+          <div class="input-glow"></div>
         </div>
-    </div>
-
-    <!-- Main Editor UI -->
-    <div id="editor-ui" style="display:none;">
-        <header>
-            <div class="logo-small">BACTERIA</div>
-            <div class="user-info">USER: <span id="username-display">GUEST</span></div>
-            <div class="controls">
-                <button onclick="document.getElementById('video-upload').click()" class="btn-secondary">IMPORT VIDEO</button>
-                <input type="file" id="video-upload" accept="video/*" style="display:none">
-                <button onclick="saveProject()" class="neon-btn">SAVE .BACTERIA</button>
-                <button onclick="document.getElementById('project-load').click()" class="btn-secondary">LOAD</button>
-                <input type="file" id="project-load" accept=".bacteria" style="display:none">
-                <button onclick="logout()" class="btn-danger">LOGOUT</button>
-            </div>
-        </header>
-
-        <main>
-            <div class="viewport">
-                <canvas id="preview-canvas"></canvas>
-                <div class="overlay-info">
-                    <span id="timecode">00:00:00</span>
-                    <span id="fps-counter">60 FPS</span>
-                </div>
-            </div>
-
-            <div class="sidebar">
-                <h3>EFFECTS LIBRARY (50+)</h3>
-                <div class="effects-grid" id="effects-list">
-                    <!-- Populated by JS -->
-                </div>
-            </div>
-        </main>
-
-        <div class="timeline-container">
-            <div class="timeline-controls">
-                <button onclick="togglePlay()" id="play-btn">PLAY</button>
-                <button onclick="stopVideo()">STOP</button>
-                <input type="range" id="seek-bar" value="0" min="0" max="100">
-            </div>
-            <div class="timeline-track" id="timeline">
-                <!-- Effect blocks go here -->
-            </div>
+        <div class="input-group">
+          <input type="password" id="login-pass" placeholder=" " required/>
+          <label>Password</label>
+          <div class="input-glow"></div>
         </div>
+        <button type="submit" class="btn-primary glow-red">
+          <span class="btn-text">ENTER STUDIO</span>
+          <span class="btn-sparkle"></span>
+        </button>
+      </form>
+      
+      <form id="signup-form" class="auth-form hidden">
+        <div class="input-group">
+          <input type="text" id="signup-user" placeholder=" " required/>
+          <label>Choose Username</label>
+        </div>
+        <div class="input-group">
+          <input type="email" id="signup-email" placeholder=" " required/>
+          <label>Email</label>
+        </div>
+        <div class="input-group">
+          <input type="password" id="signup-pass" placeholder=" " required/>
+          <label>Create Password</label>
+        </div>
+        <button type="submit" class="btn-primary glow-blue">
+          <span class="btn-text">JOIN CREW</span>
+        </button>
+      </form>
+      
+      <div class="auth-footer">
+        <span>Created by frostxxq inspired community</span>
+        <div class="social-links">
+          <a href="#" class="social-icon">DC</a>
+          <a href="#" class="social-icon">YT</a>
+          <a href="#" class="social-icon">GH</a>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <script src="effects.js"></script>
-    <script src="editor.js"></script>
+  <!-- Main Editor -->
+  <div id="editor-app" class="editor-container hidden">
+    
+    <!-- Top Bar -->
+    <header class="top-bar glass">
+      <div class="brand-mini">BACTERIA<span class="status-dot online"></span></div>
+      
+      <div class="project-info">
+        <input type="text" class="project-name" value="Untitled Project" placeholder="Project name..."/>
+        <span class="auto-save">✓ Auto-saved</span>
+      </div>
+      
+      <div class="user-section">
+        <span class="user-badge" id="user-display">EDITOR</span>
+        <button class="btn-icon" id="theme-toggle" title="Toggle Theme">🌓</button>
+        <button class="btn-icon" id="settings-btn" title="Settings">⚙</button>
+        <button class="btn-logout" id="logout-btn">⟲</button>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="workspace">
+      
+      <!-- Preview Panel -->
+      <section class="preview-panel glass">
+        <div class="preview-header">
+          <span class="preview-title">PREVIEW</span>
+          <div class="preview-controls">
+            <button class="btn-sm" id="preview-1080">1080p</button>
+            <button class="btn-sm active" id="preview-720">720p</button>
+            <button class="btn-sm" id="preview-480">480p</button>
+            <span class="fps-badge" id="fps-display">60 FPS</span>
+          </div>
+        </div>
+        
+        <div class="preview-viewport">
+          <canvas id="main-canvas"></canvas>
+          <div class="preview-overlay">
+            <div class="timecode" id="timecode">00:00:00:00</div>
+            <div class="resolution-badge" id="res-badge">1920×1080</div>
+          </div>
+          <div class="preview-hud">
+            <div class="hud-item"><span class="hud-label">ZOOM</span><span class="hud-value" id="zoom-val">100%</span></div>
+            <div class="hud-item"><span class="hud-label">EFFECTS</span><span class="hud-value" id="active-effects">0</span></div>
+            <div class="hud-item"><span class="hud-label">RENDER</span><span class="hud-value ready">READY</span></div>
+          </div>
+        </div>
+        
+        <div class="preview-footer">
+          <button class="btn-play" id="play-btn">▶ PLAY</button>
+          <button class="btn-stop" id="stop-btn">◼ STOP</button>
+          <div class="seek-wrapper">
+            <input type="range" class="seek-bar" id="seek-bar" min="0" max="100" value="0"/>
+            <span class="seek-time start" id="seek-start">00:00</span>
+            <span class="seek-time end" id="seek-end">00:30</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Effects Panel -->
+      <aside class="effects-panel glass">
+        <div class="panel-header">
+          <h3>⟡ EFFECTS LIBRARY</h3>
+          <div class="panel-search">
+            <input type="search" id="effect-search" placeholder="Search 50+ effects..."/>
+            <span class="search-icon">🔍</span>
+          </div>
+        </div>
+        
+        <div class="effects-categories">
+          <button class="cat-btn active" data-cat="all">ALL</button>
+          <button class="cat-btn" data-cat="shake">SHAKE</button>
+          <button class="cat-btn" data-cat="glitch">GLITCH</button>
+          <button class="cat-btn" data-cat="color">COLOR</button>
+          <button class="cat-btn" data-cat="overlay">OVERLAY</button>
+          <button class="cat-btn" data-cat="distort">DISTORT</button>
+        </div>
+        
+        <div class="effects-grid" id="effects-grid">
+          <!-- Dynamically populated by effects-lib.js -->
+        </div>
+        
+        <div class="effects-footer">
+          <span class="effects-count"><strong>50</strong> effects loaded</span>
+          <button class="btn-sm" id="refresh-effects">↻ Refresh</button>
+        </div>
+      </aside>
+
+      <!-- Properties Panel -->
+      <aside class="properties-panel glass hidden" id="properties-panel">
+        <div class="panel-header">
+          <h3>⟡ EFFECT PROPERTIES</h3>
+          <button class="btn-close" id="close-properties">✕</button>
+        </div>
+        
+        <div class="effect-info">
+          <h4 id="prop-effect-name">Effect Name</h4>
+          <p id="prop-effect-desc" class="effect-desc">Description here</p>
+        </div>
+        
+        <div class="params-container" id="params-container">
+          <!-- Dynamic parameters rendered here -->
+        </div>
+        
+        <div class="keyframe-section">
+          <h5>⏱ Keyframes</h5>
+          <div class="keyframe-timeline" id="keyframe-timeline"></div>
+          <button class="btn-sm" id="add-keyframe">+ Add Keyframe</button>
+        </div>
+        
+        <div class="prop-actions">
+          <button class="btn-secondary" id="reset-params">↺ Reset</button>
+          <button class="btn-primary glow-green" id="apply-params">✓ Apply</button>
+        </div>
+      </aside>
+
+    </main>
+
+    <!-- Timeline -->
+    <section class="timeline-section glass">
+      <div class="timeline-header">
+        <div class="timeline-tools">
+          <button class="tool-btn active" title="Select">↖</button>
+          <button class="tool-btn" title="Cut">✂</button>
+          <button class="tool-btn" title="Split">⫿</button>
+          <button class="tool-btn" title="Undo">↶</button>
+          <button class="tool-btn" title="Redo">↷</button>
+        </div>
+        
+        <div class="timeline-zoom">
+          <button class="zoom-btn" id="zoom-out">−</button>
+          <input type="range" class="zoom-slider" id="timeline-zoom" min="1" max="10" value="3"/>
+          <button class="zoom-btn" id="zoom-in">+</button>
+          <span class="zoom-value" id="zoom-display">3x</span>
+        </div>
+        
+        <div class="timeline-actions">
+          <button class="btn-secondary" id="import-media">📁 Import</button>
+          <button class="btn-primary glow-purple" id="export-project">💾 Export .bacteria</button>
+          <button class="btn-secondary" id="import-project">📂 Load</button>
+        </div>
+      </div>
+      
+      <div class="timeline-body">
+        <div class="timeline-ruler" id="timeline-ruler"></div>
+        
+        <div class="timeline-tracks" id="timeline-tracks">
+          <!-- Video Track -->
+          <div class="track video-track" data-type="video">
+            <div class="track-header">
+              <span class="track-label">🎬 VIDEO</span>
+              <button class="track-toggle active"></button>
+            </div>
+            <div class="track-content" id="video-track-content">
+              <div class="media-clip" id="main-video-clip" draggable="true">
+                <span class="clip-name">main.mp4</span>
+                <span class="clip-duration">00:30.00</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Effects Track -->
+          <div class="track effects-track" data-type="effects">
+            <div class="track-header">
+              <span class="track-label">✨ EFFECTS</span>
+              <button class="track-toggle active"></button>
+            </div>
+            <div class="track-content" id="effects-track-content">
+              <!-- Effect clips added here -->
+            </div>
+          </div>
+          
+          <!-- Audio Track (Future) -->
+          <div class="track audio-track disabled" data-type="audio">
+            <div class="track-header">
+              <span class="track-label">🔊 AUDIO <span class="coming-soon">SOON</span></span>
+              <button class="track-toggle"></button>
+            </div>
+            <div class="track-content">
+              <div class="track-placeholder">Audio editing coming in v2.1</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Playhead -->
+        <div class="playhead" id="playhead">
+          <div class="playhead-line"></div>
+          <div class="playhead-handle">▼</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hidden Inputs -->
+    <input type="file" id="video-input" accept="video/*" hidden/>
+    <input type="file" id="project-input" accept=".bacteria" hidden/>
+    
+  </div>
+
+  <!-- Toast Notifications -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Keyboard Shortcuts Modal -->
+  <div id="shortcuts-modal" class="modal hidden">
+    <div class="modal-content glass">
+      <h3>⌨ Keyboard Shortcuts</h3>
+      <div class="shortcuts-grid">
+        <div class="shortcut"><kbd>SPACE</kbd><span>Play/Pause</span></div>
+        <div class="shortcut"><kbd>S</kbd><span>Split Clip</span></div>
+        <div class="shortcut"><kbd>Z</kbd><span>Undo</span></div>
+        <div class="shortcut"><kbd>Ctrl+Z</kbd><span>Redo</span></div>
+        <div class="shortcut"><kbd>Ctrl+S</kbd><span>Quick Save</span></div>
+        <div class="shortcut"><kbd>Ctrl+E</kbd><span>Export</span></div>
+        <div class="shortcut"><kbd>1-5</kbd><span>Preview Quality</span></div>
+        <div class="shortcut"><kbd>ESC</kbd><span>Close Panel</span></div>
+      </div>
+      <button class="btn-close-modal" id="close-shortcuts">Got it</button>
+    </div>
+  </div>
+
+  <script src="effects-lib.js"></script>
+  <script src="engine.js"></script>
 </body>
 </html>
